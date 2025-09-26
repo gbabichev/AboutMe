@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>George Babichev</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #7c7c7c;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .profile {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #667eea;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            object-position: center top;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        .about {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 4rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        .projects {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .projects h2 {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f2f5, #e1e8ed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+            position: relative;
+            overflow: hidden;
+            padding: 10px; /* added padding around container */
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            padding: 5px; /* added padding around image */
+            box-sizing: border-box;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover .project-image::before {
+            left: 100%;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .github-link {
+            background: #333;
+            color: white;
+        }
+
+        .github-link:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+
+        .appstore-link {
+            background: #007AFF;
+            color: white;
+        }
+
+        .appstore-link:hover {
+            background: #0056CC;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .about, .projects {
+                padding: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="profile">
+                <img src="images/gbabichev.jpg">
+            </div>
+            <h1>George Babichev</h1>
+            <p class="subtitle">Full Stack Developer & Creative Problem Solver</p>
+        </header>
+
+        <section class="about">
+            <h2>About Me</h2>
+            <p>
+            I’m a Systems Engineer specializing in the Apple platform.
+            In my free time, I enjoy building apps for macOS, iOS, and iPadOS — focusing on simple, easy-to-use tools. 
+            I’m passionate about open source and try to make my projects available on the Apple App Store whenever possible.
+            </p>
+        </section>
+
+        <section class="projects">
+            <h2>My Apps</h2>
+        
+            <div class="projects-grid">
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/ScreenSnip.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Screen Snip</h3>
+                        <p class="project-description">
+                            A small yet powerfull macOS App for taking & editing screenshots.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link">
+                                GitHub
+                            </a>
+                            <a href="https://apps.apple.com/us/app/screen-snip/id6752541530?mt=12
+Screen Snip" class="project-link appstore-link">
+                                App Store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/Twinalyzer.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Twinalyzer</h3>
+                        <p class="project-description">
+                            Find duplicate photos, fast!
+                        </p>
+                        <div class="project-links">
+                            <a href="@" class="project-link github-link">
+                                GitHub Coming Soon
+                            </a>
+                            <!-- <a href="" class="project-link appstore-link">
+                                App Store
+                            </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/Thumbnailer.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Thumbnailer</h3>
+                        <p class="project-description">
+                            Powerfull Mac App for creating image & video thumbnails & contact sheets. <br>
+                            Pro tools built in for JPG/HEIC conversions, video trimming & more.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/gbabichev/Thumbnailer" class="project-link github-link">
+                                GitHub
+                            </a>
+                            <!-- <a href="#" class="project-link appstore-link">
+                                App Store
+                            </a> -->
+                        </div>
+                    </div>
+                </div>                
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/SimpleRenamer.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Simple Renamer</h3>
+                        <p class="project-description">
+                            Mac App for doing quick batch renames, with support for templates.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link">
+                                GitHub
+                            </a>
+                            <!-- <a href="#" class="project-link appstore-link">
+                                App Store
+                            </a> -->
+                        </div>
+                    </div>
+                </div>   
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/iCook.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">iCook</h3>
+                        <p class="project-description">
+                            Private recipe editor, viewer, shopping list buddy.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link github-link">
+                                GitHub Coming Soon
+                            </a>
+                            <!-- <a href="#" class="project-link appstore-link">
+                                App Store
+                            </a> -->
+                        </div>
+                    </div>
+                </div>                  
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/MacMailPicker.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">MacMailPicker</h3>
+                        <p class="project-description">
+                            Apple makes it hard to set your default email app. This app makes it easy. 
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/gbabichev/MacMailPicker" class="project-link github-link">
+                                GitHub
+                            </a>
+                            <!-- <a href="#" class="project-link appstore-link">
+                                App Store
+                            </a> -->
+                        </div>
+                    </div>
+                </div>  
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/Mirror.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Mirror</h3>
+                        <p class="project-description">
+                            Check yourself before a meeting.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/gbabichev/Mirror/tree/main" class="project-link github-link">
+                                GitHub
+                            </a>
+                            <!-- <a href="#" class="project-link appstore-link">
+                                App Store
+                            </a> -->
+                        </div>
+                    </div>
+                </div>  
+
+
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Your Name. Built with ❤️ and hosted on GitHub Pages.</p>
+        </footer>
+    </div>
+</body>
+</html>
