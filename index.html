@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -90,7 +90,7 @@
         .about p {
             font-size: 1.1rem;
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             color: #555;
         }
@@ -113,8 +113,20 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
+        }
+
+        @media (max-width: 1400px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .project-card {
@@ -135,7 +147,7 @@
 
         .project-image {
             width: 100%;
-            height: 200px;
+            height: 150px;
             background: linear-gradient(45deg, #f0f2f5, #e1e8ed);
             display: flex;
             align-items: center;
@@ -195,7 +207,12 @@
         .project-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
+        }
+
+        .project-links-row {
+            display: flex;
+            gap: 0.75rem;
         }
 
         .project-link {
@@ -208,9 +225,9 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            width: 100%;
             text-align: center;
             justify-content: center;
+            flex: 1;
         }
 
         .github-link {
@@ -220,6 +237,16 @@
 
         .github-link:hover {
             background: #555;
+            transform: scale(1.05);
+        }
+
+        .website-link {
+            background: #0066CC;
+            color: white;
+        }
+
+        .website-link:hover {
+            background: #0052A3;
             transform: scale(1.05);
         }
 
@@ -270,15 +297,15 @@
                 <img src="images/gbabichev.jpg">
             </div>
             <h1>George Babichev</h1>
-            <p class="subtitle">Full Stack Developer & Creative Problem Solver</p>
+            <p class="subtitle">Creative Problem Solver / Systems Engineer / Full Stack Developer</p>
         </header>
 
         <section class="about">
             <h2>About Me</h2>
             <p>
             I’m a Systems Engineer specializing in the Apple platform.
-            In my free time, I enjoy building apps for macOS, iOS, and iPadOS — focusing on simple, easy-to-use tools. 
-            I’m passionate about open source and try to make my projects available on the Apple App Store whenever possible.
+            <br><br>
+            In my free time I enjoy building apps for macOS, iOS, and iPadOS — focusing on simple, easy-to-use tools. 
             </p>
         </section>
 
@@ -297,13 +324,18 @@
                             A small yet powerfull macOS App for taking & editing screenshots.
                         </p>
                         <div class="project-links">
-                            <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link">
-                                GitHub
-                            </a>
-                            <a href="https://apps.apple.com/us/app/screen-snip/id6752541530?mt=12
-Screen Snip" class="project-link appstore-link">
+                            <a href="https://apps.apple.com/us/app/screen-snip/id6752541530?mt=12Screen Snip" class="project-link appstore-link" target="_blank">
                                 App Store
                             </a>
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Screen-Snip/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -318,16 +350,73 @@ Screen Snip" class="project-link appstore-link">
                             Find duplicate photos, fast!
                         </p>
                         <div class="project-links">
-                            <a href="https://github.com/gbabichev/Twinalyzer" class="project-link github-link">
-                                GitHub
-                            </a>
-                            <a href="https://apps.apple.com/us/app/twinalyzer/id6753094495?mt=12
-Twinalyzer" class="project-link appstore-link">
+                           <a href="https://apps.apple.com/us/app/twinalyzer/id6753094495?mt=12Twinalyzer" class="project-link appstore-link" target="_blank">
                                 App Store
                             </a>
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Twinalyzer" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Twinalyzer/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+ 
                         </div>
                     </div>
                 </div>
+
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/SimpleRenamer.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Simple Renamer</h3>
+                        <p class="project-description">
+                            Mac App for doing quick batch renames, with support for templates.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://apps.apple.com/us/app/simple-renamer/id6753720459" class="project-link appstore-link" target="_blank">
+                                App Store
+                            </a>                            
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Simple-Renamer/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/Mirror.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Mirror</h3>
+                        <p class="project-description">
+                            Check yourself before a meeting.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://apps.apple.com/us/app/personal-mirror/id6753086359?mt=12Personal Mirror" class="project-link appstore-link" target="_blank">
+                                App Store
+                            </a>
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Mirror" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Mirror/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
 
                 <div class="project-card">
                     <div class="project-image">
@@ -340,55 +429,17 @@ Twinalyzer" class="project-link appstore-link">
                             Pro tools built in for JPG/HEIC conversions, video trimming & more.
                         </p>
                         <div class="project-links">
-                            <a href="https://github.com/gbabichev/Thumbnailer" class="project-link github-link">
-                                GitHub
-                            </a>
-                            <!-- <a href="#" class="project-link appstore-link">
-                                App Store
-                            </a> -->
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Thumbnailer" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
                         </div>
                     </div>
-                </div>                
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/SimpleRenamer.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Simple Renamer</h3>
-                        <p class="project-description">
-                            Mac App for doing quick batch renames, with support for templates.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link">
-                                GitHub
-                            </a>
-                            <!-- <a href="#" class="project-link appstore-link">
-                                App Store
-                            </a> -->
-                        </div>
-                    </div>
-                </div>   
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/iCook.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">iCook</h3>
-                        <p class="project-description">
-                            Private recipe editor, viewer, shopping list buddy.
-                        </p>
-                        <div class="project-links">
-                            <a href="#" class="project-link github-link">
-                                GitHub Coming Soon
-                            </a>
-                            <!-- <a href="#" class="project-link appstore-link">
-                                App Store
-                            </a> -->
-                        </div>
-                    </div>
-                </div>                  
+                </div>
 
                 <div class="project-card">
                     <div class="project-image">
@@ -400,38 +451,61 @@ Twinalyzer" class="project-link appstore-link">
                             Apple makes it hard to set your default email app. This app makes it easy. 
                         </p>
                         <div class="project-links">
-                            <a href="https://github.com/gbabichev/MacMailPicker" class="project-link github-link">
-                                GitHub
-                            </a>
-                            <!-- <a href="#" class="project-link appstore-link">
-                                App Store
-                            </a> -->
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/MacMailPicker" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
                         </div>
                     </div>
                 </div>  
 
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="images/Mirror.png">
+                        <img src="images/iCook.png">
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">Mirror</h3>
+                        <h3 class="project-title">iCook</h3>
                         <p class="project-description">
-                            Check yourself before a meeting.
+                            Private recipe editor, viewer, shopping list buddy.
                         </p>
                         <div class="project-links">
-                            <a href="https://github.com/gbabichev/Mirror" class="project-link github-link">
-                                GitHub
-                            </a>
-                            <a href="https://apps.apple.com/us/app/personal-mirror/id6753086359?mt=12
-Personal Mirror" class="project-link appstore-link">
-                                App Store
-                            </a>
+                            <div class="project-links-row">
+                                <a href="#" class="project-link github-link" target="_blank">
+                                    Coming Soon!
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
                         </div>
                     </div>
-                </div>  
+                </div>
 
-
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/OfflinePlayer.png">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Offline Player</h3>
+                        <p class="project-description">
+                            Offline Video Player with beautiful metadata for iOS & iPadOS. 
+                        </p>
+                        <div class="project-links">
+                            <div class="project-links-row">
+                                <a href="#" class="project-link github-link" target="_blank">
+                                    Coming Soon!
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </section>
