@@ -111,6 +111,66 @@
             color: #333;
         }
 
+        .app-category {
+            margin-bottom: 4rem;
+        }
+
+        .app-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .platform-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-btn:hover {
+            background: #f0f2f5;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .filter-btn img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .project-card.hidden {
+            display: none;
+        }
+
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -159,7 +219,26 @@
             padding: 10px; /* added padding around container */
         }
 
-        .project-image img {
+        .platform-icons {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .platform-icon {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .project-image > img {
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -311,38 +390,44 @@
 
         <section class="projects">
             <h2>My Apps</h2>
-        
-            <div class="projects-grid">
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/ScreenSnip.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Screen Snip</h3>
-                        <p class="project-description">
-                            A small yet powerfull macOS App for taking & editing screenshots.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/screen-snip/id6752541530?mt=12Screen Snip" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <div class="project-links-row">
-                                <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link" target="_blank">
-                                    GitHub
-                                </a>
-                                <a href="https://gbabichev.github.io/Screen-Snip/" class="project-link website-link" target="_blank">
-                                    Website
-                                </a>
-                            </div>
+            <!-- Platform Filters -->
+            <div class="platform-filters">
+                <button class="filter-btn active" data-platform="all">
+                    All Apps
+                </button>
+                <button class="filter-btn" data-platform="mac">
+                    <img src="images/platforms/mac.png" alt="macOS">
+                    macOS
+                </button>
+                <button class="filter-btn" data-platform="ios">
+                    <img src="images/platforms/iPhone.png" alt="iOS">
+                    <img src="images/platforms/iPad.png" alt="iPadOS">
+                    iOS / iPadOS
+                </button>
+            </div>
 
-                        </div>
-                    </div>
+            <!-- Productivity Apps
+            <div class="app-category">
+                <h3 class="category-header">Productivity</h3>
+                <div class="projects-grid">
+
+
+
                 </div>
+            </div> -->
 
-                <div class="project-card">
+            <!-- Media Apps -->
+            <div class="app-category">
+                <h3 class="category-header">Media</h3>
+                <div class="projects-grid">
+
+                <div class="project-card" data-platforms="mac">
                     <div class="project-image">
                         <img src="images/Twinalyzer.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Twinalyzer</h3>
@@ -366,61 +451,12 @@
                     </div>
                 </div>
 
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/SimpleRenamer.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Simple Renamer</h3>
-                        <p class="project-description">
-                            Mac App for doing quick batch renames, with support for templates.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/simple-renamer/id6753720459" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>                            
-                            <div class="project-links-row">
-                                <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link" target="_blank">
-                                    GitHub
-                                </a>
-                                <a href="https://gbabichev.github.io/Simple-Renamer/" class="project-link website-link" target="_blank">
-                                    Website
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/Mirror.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Mirror</h3>
-                        <p class="project-description">
-                            Check yourself before a meeting.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/personal-mirror/id6753086359?mt=12Personal Mirror" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <div class="project-links-row">
-                                <a href="https://github.com/gbabichev/Mirror" class="project-link github-link" target="_blank">
-                                    GitHub
-                                </a>
-                                <a href="https://gbabichev.github.io/Mirror/" class="project-link website-link" target="_blank">
-                                    Website
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-
-                <div class="project-card">
+                <div class="project-card" data-platforms="mac">
                     <div class="project-image">
                         <img src="images/Thumbnailer.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Thumbnailer</h3>
@@ -441,9 +477,157 @@
                     </div>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card" data-platforms="ios">
+                    <div class="project-image">
+                        <img src="images/OfflinePlayer.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/iPad.png" alt="macOS" class="platform-icon">
+                            <img src="images/platforms/iPhone.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Offline Player</h3>
+                        <p class="project-description">
+                            Offline Video Player with beautiful metadata for iOS & iPadOS.
+                        </p>
+                        <div class="project-links">
+                            <div class="project-links-row">
+                                <a href="#" class="project-link github-link" target="_blank">
+                                    Coming Soon!
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-platforms="mac">
+                    <div class="project-image">
+                        <img src="images/MP4-Tool.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">MP4 Tool</h3>
+                        <p class="project-description">
+                            Simple FFmpeg frontend for macOS.
+                        </p>
+                        <div class="project-links">
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/MP4-Tool" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+
+                </div>
+            </div>
+
+            <!-- Utilities Apps -->
+            <div class="app-category">
+                <h3 class="category-header">Utilities</h3>
+                <div class="projects-grid">
+
+                <div class="project-card" data-platforms="mac">
+                    <div class="project-image">
+                        <img src="images/ScreenSnip.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Screen Snip</h3>
+                        <p class="project-description">
+                            A small yet powerfull macOS App for taking & editing screenshots.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://apps.apple.com/us/app/screen-snip/id6752541530?mt=12Screen Snip" class="project-link appstore-link" target="_blank">
+                                App Store
+                            </a>
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Screen-Snip/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-platforms="mac">
+                    <div class="project-image">
+                        <img src="images/SimpleRenamer.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Simple Renamer</h3>
+                        <p class="project-description">
+                            Mac App for doing quick batch renames, with support for templates.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://apps.apple.com/us/app/simple-renamer/id6753720459" class="project-link appstore-link" target="_blank">
+                                App Store
+                            </a>
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Simple-Renamer/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-platforms="mac">
+                    <div class="project-image">
+                        <img src="images/Mirror.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Mirror</h3>
+                        <p class="project-description">
+                            Check yourself before a meeting.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://apps.apple.com/us/app/personal-mirror/id6753086359?mt=12Personal Mirror" class="project-link appstore-link" target="_blank">
+                                App Store
+                            </a>
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Mirror" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <a href="https://gbabichev.github.io/Mirror/" class="project-link website-link" target="_blank">
+                                    Website
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-platforms="mac">
                     <div class="project-image">
                         <img src="images/MacMailPicker.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">MacMailPicker</h3>
@@ -461,55 +645,14 @@
                             </div>
                         </div>
                     </div>
-                </div>  
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/iCook.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">iCook</h3>
-                        <p class="project-description">
-                            Private recipe editor, viewer, shopping list buddy.
-                        </p>
-                        <div class="project-links">
-                            <div class="project-links-row">
-                                <a href="#" class="project-link github-link" target="_blank">
-                                    Coming Soon!
-                                </a>
-                                <!-- <a href="#" class="project-link website-link" target="_blank">
-                                    Website
-                                </a> -->
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="images/OfflinePlayer.png">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Offline Player</h3>
-                        <p class="project-description">
-                            Offline Video Player with beautiful metadata for iOS & iPadOS. 
-                        </p>
-                        <div class="project-links">
-                            <div class="project-links-row">
-                                <a href="#" class="project-link github-link" target="_blank">
-                                    Coming Soon!
-                                </a>
-                                <!-- <a href="#" class="project-link website-link" target="_blank">
-                                    Website
-                                </a> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
+                <div class="project-card" data-platforms="mac">
                     <div class="project-image">
                         <img src="images/FileCleaner.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">FileCleaner</h3>
@@ -529,12 +672,114 @@
                     </div>
                 </div>
 
+                <div class="project-card" data-platforms="mac">
+                    <div class="project-image">
+                        <img src="images/Drive-Speed.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Drive Speed</h3>
+                        <p class="project-description">
+                            Lightweight disk benchmark utility for macOS.
+                        </p>
+                        <div class="project-links">
+                            <div class="project-links-row">
+                                <a href="https://github.com/gbabichev/Drive-Speed" class="project-link github-link" target="_blank">
+                                    GitHub
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- Lifestyle Apps -->
+            <div class="app-category">
+                <h3 class="category-header">Lifestyle</h3>
+                <div class="projects-grid">
+
+                <div class="project-card" data-platforms="mac ios">
+                    <div class="project-image">
+                        <img src="images/iCook.png">
+                        <div class="platform-icons">
+                            <img src="images/platforms/all.png" alt="macOS" class="platform-icon">
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">iCook</h3>
+                        <p class="project-description">
+                            Private recipe editor, viewer, shopping list buddy.
+                        </p>
+                        <div class="project-links">
+                            <div class="project-links-row">
+                                <a href="#" class="project-link github-link" target="_blank">
+                                    Coming Soon!
+                                </a>
+                                <!-- <a href="#" class="project-link website-link" target="_blank">
+                                    Website
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
             </div>
         </section>
 
         <footer>
-            <p>&copy; 2025 Your Name. Built with ❤️ and hosted on GitHub Pages.</p>
+            <p>&copy; 2025 George Babichev. Built with ❤️ and hosted on GitHub Pages.</p>
         </footer>
     </div>
+
+    <script>
+        // Platform filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        const categoryHeaders = document.querySelectorAll('.app-category');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const selectedPlatform = button.dataset.platform;
+
+                // Show/hide project cards based on platform
+                projectCards.forEach(card => {
+                    const cardPlatforms = card.dataset.platforms;
+
+                    if (selectedPlatform === 'all') {
+                        card.classList.remove('hidden');
+                    } else if (cardPlatforms.includes(selectedPlatform)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Hide empty categories
+                categoryHeaders.forEach(category => {
+                    const grid = category.querySelector('.projects-grid');
+                    const visibleCards = grid.querySelectorAll('.project-card:not(.hidden)');
+
+                    if (visibleCards.length === 0) {
+                        category.style.display = 'none';
+                    } else {
+                        category.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
