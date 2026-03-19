@@ -3,1027 +3,698 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="George Babichev builds practical, native-first apps for macOS, iOS, and iPadOS.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3eee4">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1320">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>George Babichev</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap');
-
-        :root {
-            --paper: #f6f7f5;
-            --surface: #ffffff;
-            --ink: #1c1d1f;
-            --muted: #5b6068;
-            --accent: #0a84ff;
-            --accent-soft: #e6f1ff;
-            --line: #e6e8ec;
-            --line-strong: #cfd5de;
-            --shadow-soft: none;
-            --shadow-lift: none;
-            --radius-lg: 20px;
-            --radius-md: 14px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.7;
-            color: var(--ink);
-            background: var(--paper);
-            min-height: 100vh;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: transparent;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 3rem 2rem 4rem;
-        }
-
-        header {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-            align-items: center;
-            gap: 2.5rem;
-            margin-bottom: 1rem;
-            padding: 2rem 0;
-            text-align: left;
-        }
-
-        .profile {
-            width: 130px;
-            height: 130px;
-            border-radius: 28px;
-            margin: 0;
-            background: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--accent);
-            box-shadow: none;
-            overflow: hidden;
-            border: 1px solid var(--line);
-        }
-
-        .profile img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
-            object-position: center top;
-        }
-
-        h1 {
-            font-family: 'Fraunces', Georgia, serif;
-            font-size: clamp(2.6rem, 4vw, 3.6rem);
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 0.75rem;
-        }
-
-        .subtitle {
-            font-size: 1.05rem;
-            color: var(--muted);
-            font-weight: 500;
-            letter-spacing: 0.02em;
-        }
-
-        .about {
-            background: var(--surface);
-            padding: 3rem;
-            border-radius: var(--radius-lg);
-            margin-bottom: 1rem;
-            box-shadow: none;
-            border: 1px solid var(--line);
-        }
-
-        .about h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--ink);
-            text-align: left;
-        }
-
-        .about p {
-            font-size: 1.1rem;
-            text-align: left;
-            max-width: 900px;
-            margin: 0;
-            color: var(--muted);
-        }
-
-        .projects {
-            background: var(--surface);
-            padding: 3rem;
-            border-radius: var(--radius-lg);
-            box-shadow: none;
-            border: 1px solid var(--line);
-        }
-
-        .projects h2 {
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            text-align: left;
-            color: var(--ink);
-        }
-
-        .app-category {
-            margin-bottom: 4rem;
-        }
-
-        .app-category:last-child {
-            margin-bottom: 0;
-        }
-
-        .category-header {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-count {
-            font-size: 0.8rem;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .filter-btn.active .filter-count {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .reset-filters {
-            padding: 0.6rem 1.2rem;
-            border-radius: 999px;
-            border: 1px solid var(--line-strong);
-            background: transparent;
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .reset-filters:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-soft);
-        }
-
-        .filter-btn {
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--line-strong);
-            background: var(--surface);
-            color: var(--ink);
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--accent);
-            background: var(--accent-soft);
-            transform: translateY(-1px);
-        }
-
-        .filter-btn.active {
-            background: var(--accent);
-            color: #ffffff;
-            border-color: var(--accent);
-        }
-
-        .filter-btn img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            filter: grayscale(0.1);
-        }
-
-        .project-card.hidden {
-            display: none;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        @media (max-width: 1400px) {
-            .projects-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .project-card {
-            background: var(--surface);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-            border: 1px solid var(--line);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .project-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--line-strong);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, #f3f5f8, #e7ebf1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: #8b9098;
-            position: relative;
-            overflow: hidden;
-            padding: 12px;
-        }
-
-        .platform-icons {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            display: flex;
-            gap: 4px;
-            z-index: 10;
-        }
-
-        .platform-icon {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-            background: rgba(255, 255, 255, 0.92);
-            padding: 3px;
-            border-radius: 4px;
-            box-shadow: none;
-        }
-
-        .project-image > img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
-            padding: 5px; /* added padding around image */
-            box-sizing: border-box;
-        }
-
-        .project-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-
-        .project-card:hover .project-image::before {
-            left: 100%;
-        }
-
-        .project-content {
-            padding: 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .project-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--ink);
-        }
-
-        .project-description {
-            color: var(--muted);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-            flex: 1;
-        }
-
-        .project-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .project-link {
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-align: center;
-            justify-content: center;
-            flex: 1;
-        }
-
-        .github-link {
-            background: #1f2328;
-            color: #ffffff;
-        }
-
-        .github-link:hover {
-            background: #2d333b;
-            transform: translateY(-1px);
-        }
-
-        .website-link {
-            background: #0b66d6;
-            color: #ffffff;
-        }
-
-        .website-link:hover {
-            background: #0852ae;
-            transform: translateY(-1px);
-        }
-
-        .appstore-link {
-            background: var(--accent);
-            color: #ffffff;
-        }
-
-        .appstore-link:hover {
-            background: #0060d6;
-            transform: translateY(-1px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            header {
-                grid-template-columns: 1fr;
-                justify-items: center;
-                text-align: center;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .about, .projects {
-                padding: 2rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-links {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <title>George Babichev | Apple Platform Developer</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="profile">
-                <img src="images/gbabichev.jpg">
+    <main class="page">
+        <section class="hero">
+            <div class="hero-copy surface-panel">
+                <p class="eyebrow">George Babichev</p>
+                <h1>Useful Apple apps with zero bloat.</h1>
+                <p class="hero-lead">
+                    I design and ship focused tools for macOS, iOS, and iPadOS. The goal is simple:
+                    remove friction, stay native, and make the app feel obvious within seconds.
+                </p>
+                <div class="hero-actions">
+                    <a class="cta cta-primary" href="#projects">Browse Apps</a>
+                    <a class="cta cta-secondary" href="https://github.com/gbabichev" target="_blank" rel="noreferrer">GitHub Profile</a>
+                </div>
+                <div class="hero-highlights" aria-label="Portfolio highlights">
+                    <span class="hero-highlight"><strong>Native-first</strong> Swift apps for Apple platforms</span>
+                    <span class="hero-highlight"><strong>Open source</strong> every project ships with source</span>
+                    <span class="hero-highlight"><strong>Practical scope</strong> utilities, media tools, and lifestyle apps</span>
+                </div>
             </div>
-            <h1>George Babichev</h1>
-        </header>
 
-        <section class="about">
-            <h2>About Me</h2>
-            <p>
-            I build small, thoughtful apps for macOS and iOS—lightweight tools that solve real‑world annoyances.
-            </p>
+            <aside class="hero-aside surface-panel" aria-label="Profile and portfolio metrics">
+                <div class="portrait-wrap">
+                    <div class="profile">
+                        <img src="images/gbabichev.jpg" alt="Portrait of George Babichev">
+                    </div>
+                    <div class="portrait-copy">
+                        <h2>Independent developer.</h2>
+                        <p>Small products, sharp workflows, and a bias toward apps that earn their place on your Dock or Home Screen.</p>
+                    </div>
+                </div>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <strong id="stat-total-apps">0</strong>
+                        <span>projects shown</span>
+                    </div>
+                    <div class="metric-card">
+                        <strong id="stat-appstore">0</strong>
+                        <span>App Store releases</span>
+                    </div>
+                </div>
+
+                <div class="hero-note">
+                    <h3>What I optimize for</h3>
+                    <p>Clear from the first launch, native platform behavior, and features that solve the job without turning the UI into a control panel.</p>
+                </div>
+            </aside>
         </section>
 
-        <section class="projects">
-            <h2>My Apps</h2>
+        <section class="principles">
+            <article class="principle-card surface-panel">
+                <h3>Built around real annoyances</h3>
+                <p>The best ideas here start small: batch renaming, screenshot cleanup, duplicate photo detection, SMB mounting, or ZIP inspection.</p>
+            </article>
+            <article class="principle-card surface-panel">
+                <h3>Native feel over framework gloss</h3>
+                <p>These apps are meant to feel at home on Apple platforms, with familiar controls, lightweight performance, and minimal friction.</p>
+            </article>
+            <article class="principle-card surface-panel">
+                <h3>Shipping matters</h3>
+                <p>Some projects are polished App Store releases, others are public utilities in active iteration. The portfolio reflects both sides of the work.</p>
+            </article>
+        </section>
 
-            <!-- Platform Filters -->
-            <div class="filters">
-                <div class="filter-group">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter-group="category" data-category="all">
-                            <span>All Types</span>
-                            <span class="filter-count"></span>
-                        </button>
-                        <button class="filter-btn" data-filter-group="category" data-category="tools">
-                            <span>Tools</span>
-                            <span class="filter-count"></span>
-                        </button>
-                        <button class="filter-btn" data-filter-group="category" data-category="media-tools">
-                            <span>Media Tools</span>
-                            <span class="filter-count"></span>
-                        </button>
-                        <button class="filter-btn" data-filter-group="category" data-category="personal">
-                            <span>Personal</span>
-                            <span class="filter-count"></span>
-                        </button>
-                    </div>
+        <section class="projects surface-panel" id="projects">
+            <div class="projects-header">
+                <div>
+                    <p class="eyebrow">Portfolio</p>
+                    <h2>Apps for real workflows.</h2>
                 </div>
-                <div class="filter-group">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter-group="platform" data-platform="all">
-                            <span>All Platforms</span>
-                            <span class="filter-count"></span>
-                        </button>
-                        <button class="filter-btn" data-filter-group="platform" data-platform="mac">
-                            <img src="images/platforms/mac.png" alt="macOS">
-                            <span>macOS</span>
-                            <span class="filter-count"></span>
-                        </button>
-                        <button class="filter-btn" data-filter-group="platform" data-platform="ios">
-                            <img src="images/platforms/iPhone.png" alt="iOS">
-                            <img src="images/platforms/iPad.png" alt="iPadOS">
-                            <span>iOS / iPadOS</span>
-                            <span class="filter-count"></span>
-                        </button>
-                    </div>
-                </div>
-                <button class="reset-filters" id="reset-filters" type="button">Reset</button>
+                <p class="section-intro">
+                    Filter by app type or platform. If a project is live on the App Store or public on GitHub,
+                    the card links directly to it.
+                </p>
             </div>
 
-            <!-- Tools Apps -->
-            <div class="app-category">
-                <h3 class="category-header">Tools</h3>
+            <section class="featured-apps" aria-labelledby="featured-apps-title">
+                <div class="featured-header">
+                    <div>
+                        <h3 id="featured-apps-title">Featured Apps</h3>
+                        <p>Start here if you want the clearest view of what I like building most: focused tools with a strong point of view and polished native behavior.</p>
+                    </div>
+                    <p>Highlights first, full catalog right below.</p>
+                </div>
+                <div class="featured-grid">
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/ScreenSnip.png" alt="Screen Snip featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Everyday Tool</p>
+                            <h4>Screen Snip</h4>
+                            <p class="featured-summary">A sharp, native screenshot workflow for macOS with fast capture, markup, and cleanup.</p>
+                            <div class="featured-links">
+                                <a href="https://apps.apple.com/us/app/screen-snip/id6752541530" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://gbabichev.github.io/Screen-Snip/" class="project-link website-link" target="_blank" rel="noreferrer">Website</a>
+                                <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/iCook.png" alt="iCook featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Lifestyle App</p>
+                            <h4>iCook</h4>
+                            <p class="featured-summary">A private recipe editor and kitchen companion for saved recipes, planning, and shopping lists.</p>
+                            <div class="featured-links">
+                                <span class="project-link muted-link" aria-disabled="true">Coming Soon</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/FlexPlayer.png" alt="FlexPlayer featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Lifestyle App</p>
+                            <h4>FlexPlayer</h4>
+                            <p class="featured-summary">An offline player for iPhone and iPad that treats local video like a first-class library.</p>
+                            <div class="featured-links">
+                                <a href="https://apps.apple.com/us/app/flex-player/id6754710574" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/FlexPlayer" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/Jotable.png" alt="Jotable featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Lifestyle App</p>
+                            <h4>Jotable</h4>
+                            <p class="featured-summary">A deliberately simple notes app for Mac, iPhone, and iPad built around quick capture and sync.</p>
+                            <div class="featured-links">
+                                <a href="https://apps.apple.com/us/app/jotable-simple-notes/id6754772226" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Jotable" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/MP4-Tool.png" alt="MP4 Tool featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Media Tool</p>
+                            <h4>MP4 Tool</h4>
+                            <p class="featured-summary">A straightforward FFmpeg front end for macOS when terminal flags are the wrong interface.</p>
+                            <div class="featured-links">
+                                <a href="https://github.com/gbabichev/MP4-Tool" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/IPScan.png" alt="IP Scanner featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Mac Admin</p>
+                            <h4>IP Scanner</h4>
+                            <p class="featured-summary">A quick network scanner for identifying devices on your LAN without piecing the workflow together manually.</p>
+                            <div class="featured-links">
+                                <a href="https://github.com/gbabichev/IP-Scanner/releases" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/SimpleRenamer.png" alt="Simple Renamer featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Everyday Tool</p>
+                            <h4>Simple Renamer</h4>
+                            <p class="featured-summary">Batch rename files on macOS with clean templates, quick previews, and no unnecessary setup.</p>
+                            <div class="featured-links">
+                                <a href="https://apps.apple.com/us/app/simple-renamer/id6753720459" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-visual">
+                            <img src="images/Twinalyzer.png" alt="Twinalyzer featured app preview" loading="lazy">
+                        </div>
+                        <div class="featured-body">
+                            <p class="featured-kicker">Media Tool</p>
+                            <h4>Twinalyzer</h4>
+                            <p class="featured-summary">Duplicate photo cleanup is miserable in most apps. This one is built to be fast, obvious, and easy to trust.</p>
+                            <div class="featured-links">
+                                <a href="https://apps.apple.com/us/app/twinalyzer/id6753094495" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Twinalyzer" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <div class="filter-panel">
+                <div class="filters" aria-label="Project filters">
+                    <div class="filter-group">
+                        <p class="filter-label">Type</p>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" type="button" data-filter-group="category" data-category="all" data-label="All Types" aria-pressed="true">
+                                <span>All Types</span>
+                                <span class="filter-count"></span>
+                            </button>
+                            <button class="filter-btn" type="button" data-filter-group="category" data-category="everyday-tools" data-label="Everyday Tools" aria-pressed="false">
+                                <span>Everyday Tools</span>
+                                <span class="filter-count"></span>
+                            </button>
+                            <button class="filter-btn" type="button" data-filter-group="category" data-category="mac-admin" data-label="Mac Admin" aria-pressed="false">
+                                <span>Mac Admin</span>
+                                <span class="filter-count"></span>
+                            </button>
+                            <button class="filter-btn" type="button" data-filter-group="category" data-category="media-tools" data-label="Media Tools" aria-pressed="false">
+                                <span>Media Tools</span>
+                                <span class="filter-count"></span>
+                            </button>
+                            <button class="filter-btn" type="button" data-filter-group="category" data-category="lifestyle" data-label="Lifestyle" aria-pressed="false">
+                                <span>Lifestyle</span>
+                                <span class="filter-count"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <p class="filter-label">Platform</p>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" type="button" data-filter-group="platform" data-platform="all" data-label="All Platforms" aria-pressed="true">
+                                <span>All Platforms</span>
+                                <span class="filter-count"></span>
+                            </button>
+                            <button class="filter-btn" type="button" data-filter-group="platform" data-platform="mac" data-label="macOS" aria-pressed="false">
+                                <img src="images/platforms/mac.png" alt="macOS icon">
+                                <span>macOS</span>
+                                <span class="filter-count"></span>
+                            </button>
+                            <button class="filter-btn" type="button" data-filter-group="platform" data-platform="ios" data-label="iOS / iPadOS" aria-pressed="false">
+                                <img src="images/platforms/iPhone.png" alt="iPhone icon">
+                                <img src="images/platforms/iPad.png" alt="iPad icon">
+                                <span>iOS / iPadOS</span>
+                                <span class="filter-count"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <p class="results-summary" id="results-summary">Showing all apps.</p>
+                        <button class="reset-filters" id="reset-filters" type="button">Reset filters</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-state" id="empty-state" hidden>
+                No apps match the current filter combination. Reset the filters to see the full portfolio again.
+            </div>
+
+            <section class="app-category" data-category-section="everyday-tools">
+                <div class="category-header">
+                    <div>
+                        <h3>Everyday Tools</h3>
+                        <p>General-purpose macOS utilities built for day-to-day tasks like screenshots, file cleanup, renaming, and quick one-off fixes.</p>
+                    </div>
+                    <span class="category-count"></span>
+                </div>
                 <div class="projects-grid">
+                    <article class="project-card" data-platforms="mac" data-category="everyday-tools">
+                        <div class="project-image">
+                            <img src="images/ScreenSnip.png" alt="Screen Snip app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Everyday</span>
+                                <span class="project-tag availability">App Store</span>
+                            </div>
+                            <h3 class="project-title">Screen Snip</h3>
+                            <p class="project-description">A focused macOS screenshot utility for capture, markup, and quick edits without extra clutter.</p>
+                            <div class="project-links">
+                                <a href="https://apps.apple.com/us/app/screen-snip/id6752541530" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://gbabichev.github.io/Screen-Snip/" class="project-link website-link" target="_blank" rel="noreferrer">Website</a>
+                                <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
 
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/ScreenSnip.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                    <article class="project-card" data-platforms="mac" data-category="everyday-tools">
+                        <div class="project-image">
+                            <img src="images/SimpleRenamer.png" alt="Simple Renamer app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Screen Snip</h3>
-                        <p class="project-description">
-                            A small yet powerfull macOS App for taking & editing screenshots.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/screen-snip/id6752541530?mt=12Screen Snip" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <a href="https://github.com/gbabichev/Screen-Snip" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Everyday</span>
+                                <span class="project-tag availability">App Store</span>
+                            </div>
+                            <h3 class="project-title">Simple Renamer</h3>
+                            <p class="project-description">Batch rename files on macOS with straightforward templates, fast previews, and none of the usual overhead.</p>
+                            <div class="project-links">
+                                <a href="https://apps.apple.com/us/app/simple-renamer/id6753720459" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="everyday-tools">
+                        <div class="project-image">
+                            <img src="images/Mirror.png" alt="Mirror app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Everyday</span>
+                                <span class="project-tag availability">App Store</span>
+                            </div>
+                            <h3 class="project-title">Mirror</h3>
+                            <p class="project-description">A quick personal mirror for those last ten seconds before a meeting, recording, or video call.</p>
+                            <div class="project-links">
+                                <a href="https://apps.apple.com/us/app/personal-mirror/id6753086359" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Mirror" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="everyday-tools">
+                        <div class="project-image">
+                            <img src="images/FileCleaner.png" alt="FileCleaner app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Everyday</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">FileCleaner</h3>
+                            <p class="project-description">A fast junk-file cleanup utility for macOS when you want to reclaim space without poking through hidden folders by hand.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/FileCleaner" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="everyday-tools">
+                        <div class="project-image">
+                            <img src="images/Drive-Speed.png" alt="Drive Speed app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Everyday</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">Drive Speed</h3>
+                            <p class="project-description">A lightweight disk benchmark utility that surfaces storage performance without the noise of larger suites.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/Drive-Speed" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="everyday-tools">
+                        <div class="project-image">
+                            <img src="images/Zippy.png" alt="Zippy app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Everyday</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">Zippy</h3>
+                            <p class="project-description">Inspect, edit, and manage ZIP archives with a richer workflow than the default compress-or-extract experience.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/Zippy" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
                 </div>
+            </section>
 
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/SimpleRenamer.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
+            <section class="app-category" data-category-section="mac-admin">
+                <div class="category-header">
+                    <div>
+                        <h3>Mac Admin</h3>
+                        <p>Utilities aimed at sysadmins and power users working with networks, storage, defaults, and device-management workflows.</p>
                     </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Simple Renamer</h3>
-                        <p class="project-description">
-                            Mac App for doing quick batch renames, with support for templates.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/simple-renamer/id6753720459" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <a href="https://github.com/gbabichev/Simple-Renamer/tree/main" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
+                    <span class="category-count"></span>
                 </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/Mirror.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Mirror</h3>
-                        <p class="project-description">
-                            Check yourself before a meeting.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/personal-mirror/id6753086359?mt=12Personal Mirror" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <a href="https://github.com/gbabichev/Mirror" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>                
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/MacMailPicker.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">MacMailPicker</h3>
-                        <p class="project-description">
-                            Apple makes it hard to set your default email app. This app makes it easy. 
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/MacMailPicker" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/FileCleaner.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">FileCleaner</h3>
-                        <p class="project-description">
-                            Quick Junk File Cleaner for macOS.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/FileCleaner" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/Drive-Speed.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Drive Speed</h3>
-                        <p class="project-description">
-                            Lightweight disk benchmark utility for macOS.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/Drive-Speed" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/IPScan.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">IP Scanner</h3>
-                        <p class="project-description">
-                            Quickly identify devices on your network.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/IP-Scanner/releases" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/DHCP.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">DHCP Tester</h3>
-                        <p class="project-description">
-                            Check the DHCP responses on your network.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/DHCP-Test-Tool/releases" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/Nudgr.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Nudgr</h3>
-                        <p class="project-description">
-                            User Friendly UI for building & testing <a href="https://github.com/macadmins/nudge">Nudge</a> configs
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/Nudgr/releases" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/Capacity.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Capacity</h3>
-                        <p class="project-description">
-                            See where your disk space is going — fast & native
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/Capacity" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                            <!-- <a href="#" class="project-link website-link" target="_blank">
-                                Website
-                            </a> -->
-                        </div>
-                    </div>
-                </div>   
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/MappedDrive.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">MappedDrive</h3>
-                        <p class="project-description">
-                            A macOS menu bar utility for quickly connecting to your SMB shares.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/MappedDrive" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-platforms="mac" data-category="tools">
-                    <div class="project-image">
-                        <img src="images/Zippy.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Zippy</h3>
-                        <p class="project-description">
-                            Open, inspect, and modify ZIP archives like 7-Zip, not just extract and compress.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/Zippy" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                </div>
-            </div>
-
-            <!-- Media Tools Apps -->
-            <div class="app-category">
-                <h3 class="category-header">Media Tools</h3>
                 <div class="projects-grid">
+                    <article class="project-card" data-platforms="mac" data-category="mac-admin">
+                        <div class="project-image">
+                            <img src="images/MacMailPicker.png" alt="MacMailPicker app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Admin</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">MacMailPicker</h3>
+                            <p class="project-description">A simple fix for an annoying macOS job: setting your default email app without digging through system quirks.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/MacMailPicker" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
 
-                <div class="project-card" data-platforms="mac" data-category="media-tools">
-                    <div class="project-image">
-                        <img src="images/Twinalyzer.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                    <article class="project-card" data-platforms="mac" data-category="mac-admin">
+                        <div class="project-image">
+                            <img src="images/IPScan.png" alt="IP Scanner app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Twinalyzer</h3>
-                        <p class="project-description">
-                            Find duplicate photos, fast!
-                        </p>
-                        <div class="project-links">
-                           <a href="https://apps.apple.com/us/app/twinalyzer/id6753094495?mt=12Twinalyzer" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <a href="https://github.com/gbabichev/Twinalyzer" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
- 
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Admin</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">IP Scanner</h3>
+                            <p class="project-description">A quick network scanner for identifying devices on your LAN when you need answers faster than terminal commands.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/IP-Scanner/releases" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="mac-admin">
+                        <div class="project-image">
+                            <img src="images/DHCP.png" alt="DHCP Tester app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Admin</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">DHCP Tester</h3>
+                            <p class="project-description">Inspect DHCP responses on your network with a purpose-built utility instead of piecing the workflow together manually.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/DHCP-Test-Tool/releases" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="mac-admin">
+                        <div class="project-image">
+                            <img src="images/Nudgr.png" alt="Nudgr app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Admin</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">Nudgr</h3>
+                            <p class="project-description">A user-friendly interface for building and testing <a href="https://github.com/macadmins/nudge" target="_blank" rel="noreferrer">Nudge</a> configurations.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/Nudgr/releases" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="mac-admin">
+                        <div class="project-image">
+                            <img src="images/Capacity.png" alt="Capacity app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Admin</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">Capacity</h3>
+                            <p class="project-description">A native disk-usage viewer that helps you see where storage is going without waiting for heavyweight scanners.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/Capacity" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="mac-admin">
+                        <div class="project-image">
+                            <img src="images/MappedDrive.png" alt="MappedDrive app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Admin</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">MappedDrive</h3>
+                            <p class="project-description">A menu bar utility for quickly connecting to SMB shares without repeating the same Finder flow every day.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/MappedDrive" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
                 </div>
+            </section>
 
-                <div class="project-card" data-platforms="mac" data-category="media-tools">
-                    <div class="project-image">
-                        <img src="images/Thumbnailer.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
+            <section class="app-category" data-category-section="media-tools">
+                <div class="category-header">
+                    <div>
+                        <h3>Media Tools</h3>
+                        <p>Utilities for duplicate cleanup, thumbnail generation, and straightforward video workflows.</p>
                     </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Thumbnailer</h3>
-                        <p class="project-description">
-                            Powerfull Mac App for creating image & video thumbnails & contact sheets. <br>
-                            Pro tools built in for JPG/HEIC conversions, video trimming & more.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/Thumbnailer" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
+                    <span class="category-count"></span>
                 </div>
-
-                <div class="project-card" data-platforms="mac" data-category="media-tools">
-                    <div class="project-image">
-                        <img src="images/MP4-Tool.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">MP4 Tool</h3>
-                        <p class="project-description">
-                            Simple FFmpeg frontend for macOS.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/gbabichev/MP4-Tool" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>                
-
-                </div>
-            </div>
-
-            <!-- Personal Apps -->
-            <div class="app-category">
-                <h3 class="category-header">Personal</h3>
                 <div class="projects-grid">
+                    <article class="project-card" data-platforms="mac" data-category="media-tools">
+                        <div class="project-image">
+                            <img src="images/Twinalyzer.png" alt="Twinalyzer app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Media</span>
+                                <span class="project-tag availability">App Store</span>
+                            </div>
+                            <h3 class="project-title">Twinalyzer</h3>
+                            <p class="project-description">A duplicate-photo finder for macOS that prioritizes speed and clarity over endless cleanup ceremony.</p>
+                            <div class="project-links">
+                                <a href="https://apps.apple.com/us/app/twinalyzer/id6753094495" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Twinalyzer" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
 
-                <div class="project-card" data-platforms="ios" data-category="personal">
-                    <div class="project-image">
-                        <img src="images/FlexPlayer.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/iPad.png" alt="macOS" class="platform-icon">
-                            <img src="images/platforms/iPhone.png" alt="macOS" class="platform-icon">
+                    <article class="project-card" data-platforms="mac" data-category="media-tools">
+                        <div class="project-image">
+                            <img src="images/Thumbnailer.png" alt="Thumbnailer app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">FlexPlayer</h3>
-                        <p class="project-description">
-                            Offline Video Player with beautiful metadata for iOS & iPadOS.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/flex-player/id6754710574" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <a href="https://github.com/gbabichev/FlexPlayer" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Media</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">Thumbnailer</h3>
+                            <p class="project-description">Create image and video thumbnails, contact sheets, conversions, and quick trims from one capable macOS utility.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/Thumbnailer" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac" data-category="media-tools">
+                        <div class="project-image">
+                            <img src="images/MP4-Tool.png" alt="MP4 Tool app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS">
+                                <img src="images/platforms/mac.png" alt="macOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Media</span>
+                                <span class="project-tag availability">Open Source</span>
+                            </div>
+                            <h3 class="project-title">MP4 Tool</h3>
+                            <p class="project-description">A straightforward FFmpeg front end for macOS when you want useful video controls without living in terminal flags.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/gbabichev/MP4-Tool" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
                 </div>
+            </section>
 
-                <div class="project-card" data-platforms="mac ios" data-category="personal">
-                    <div class="project-image">
-                        <img src="images/Jotable.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/all.png" alt="macOS" class="platform-icon">
-                        </div>
+            <section class="app-category" data-category-section="lifestyle">
+                <div class="category-header">
+                    <div>
+                        <h3>Lifestyle</h3>
+                        <p>Consumer-facing apps for playback, notes, recipes, and everyday organization across Apple devices.</p>
                     </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Jotable - Simple Notes App</h3>
-                        <p class="project-description">
-                            No-frills, no ads, no AI, no in-app purchases. Just a simple notes app with iCloud Sync.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://apps.apple.com/us/app/jotable-simple-notes/id6754772226" class="project-link appstore-link" target="_blank">
-                                App Store
-                            </a>
-                            <a href="https://github.com/gbabichev/Jotable" class="project-link github-link" target="_blank">
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>  
-                
-                 <div class="project-card" data-platforms="mac ios" data-category="personal">
-                    <div class="project-image">
-                        <img src="images/iCook.png">
-                        <div class="platform-icons">
-                            <img src="images/platforms/all.png" alt="macOS" class="platform-icon">
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">iCook</h3>
-                        <p class="project-description">
-                            Private recipe editor, viewer, shopping list buddy.
-                        </p>
-                        <div class="project-links">
-                            <a href="#" class="project-link github-link" target="_blank">
-                                Coming Soon!
-                            </a>
-                        </div>
-                    </div>
-                </div>               
-
+                    <span class="category-count"></span>
                 </div>
-            </div>
+                <div class="projects-grid">
+                    <article class="project-card" data-platforms="ios" data-category="lifestyle">
+                        <div class="project-image">
+                            <img src="images/FlexPlayer.png" alt="FlexPlayer app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports iPhone and iPad">
+                                <img src="images/platforms/iPad.png" alt="iPadOS" class="platform-icon">
+                                <img src="images/platforms/iPhone.png" alt="iOS" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Lifestyle</span>
+                                <span class="project-tag availability">App Store</span>
+                            </div>
+                            <h3 class="project-title">FlexPlayer</h3>
+                            <p class="project-description">An offline video player for iPhone and iPad with polished metadata presentation and a cleaner browsing experience.</p>
+                            <div class="project-links">
+                                <a href="https://apps.apple.com/us/app/flex-player/id6754710574" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/FlexPlayer" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac ios" data-category="lifestyle">
+                        <div class="project-image">
+                            <img src="images/Jotable.png" alt="Jotable app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS, iOS, and iPadOS">
+                                <img src="images/platforms/all.png" alt="All Apple platforms" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Lifestyle</span>
+                                <span class="project-tag availability">App Store</span>
+                            </div>
+                            <h3 class="project-title">Jotable</h3>
+                            <p class="project-description">A no-frills notes app with iCloud Sync. No ads, no AI, no upsell loops, just quick capture across your devices.</p>
+                            <div class="project-links">
+                                <a href="https://apps.apple.com/us/app/jotable-simple-notes/id6754772226" class="project-link appstore-link" target="_blank" rel="noreferrer">App Store</a>
+                                <a href="https://github.com/gbabichev/Jotable" class="project-link github-link" target="_blank" rel="noreferrer">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-platforms="mac ios" data-category="lifestyle">
+                        <div class="project-image">
+                            <img src="images/iCook.png" alt="iCook app preview" loading="lazy">
+                            <div class="platform-icons" aria-label="Supports macOS, iOS, and iPadOS">
+                                <img src="images/platforms/all.png" alt="All Apple platforms" class="platform-icon">
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-tag category">Lifestyle</span>
+                                <span class="project-tag availability">In Progress</span>
+                            </div>
+                            <h3 class="project-title">iCook</h3>
+                            <p class="project-description">A private recipe editor and kitchen companion for saving recipes, planning meals, and building smarter shopping lists.</p>
+                            <div class="project-links">
+                                <span class="project-link muted-link" aria-disabled="true">Coming Soon</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
         </section>
 
         <footer>
-            <p>&copy; 2025 George Babichev. Built with ❤️ and hosted on GitHub Pages.</p>
+            <p>&copy; <span id="current-year">2026</span> George Babichev. Built as a static site and hosted on GitHub Pages.</p>
         </footer>
-    </div>
+    </main>
 
-    <script>
-        // Platform filter functionality
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const projectCards = document.querySelectorAll('.project-card');
-        const categoryHeaders = document.querySelectorAll('.app-category');
-        const resetButton = document.getElementById('reset-filters');
-
-        const getActiveValue = (group) => {
-            const activeButton = document.querySelector(
-                `.filter-btn.active[data-filter-group="${group}"]`
-            );
-            return activeButton ? activeButton.dataset[group] : 'all';
-        };
-
-        const setActiveForGroup = (group, value) => {
-            document
-                .querySelectorAll(`.filter-btn[data-filter-group="${group}"]`)
-                .forEach(btn => {
-                    const isActive = btn.dataset[group] === value;
-                    btn.classList.toggle('active', isActive);
-                });
-        };
-
-        const updateCounts = () => {
-            const selectedPlatform = getActiveValue('platform');
-            const selectedCategory = getActiveValue('category');
-
-            filterButtons.forEach(button => {
-                const group = button.dataset.filterGroup;
-                const value = button.dataset[group];
-
-                const count = Array.from(projectCards).filter(card => {
-                    const cardPlatforms = card.dataset.platforms || '';
-                    const cardCategory = card.dataset.category || '';
-
-                    const matchesPlatform =
-                        group === 'platform'
-                            ? value === 'all' || cardPlatforms.includes(value)
-                            : selectedPlatform === 'all' || cardPlatforms.includes(selectedPlatform);
-                    const matchesCategory =
-                        group === 'category'
-                            ? value === 'all' || cardCategory === value
-                            : selectedCategory === 'all' || cardCategory === selectedCategory;
-
-                    return matchesPlatform && matchesCategory;
-                }).length;
-
-                const countEl = button.querySelector('.filter-count');
-                if (countEl) {
-                    countEl.textContent = `(${count})`;
-                }
-            });
-        };
-
-        const applyFilters = () => {
-            const selectedPlatform = getActiveValue('platform');
-            const selectedCategory = getActiveValue('category');
-
-            projectCards.forEach(card => {
-                const cardPlatforms = card.dataset.platforms || '';
-                const cardCategory = card.dataset.category || '';
-
-                const matchesPlatform =
-                    selectedPlatform === 'all' || cardPlatforms.includes(selectedPlatform);
-                const matchesCategory =
-                    selectedCategory === 'all' || cardCategory === selectedCategory;
-
-                if (matchesPlatform && matchesCategory) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            updateCounts();
-
-            // Hide empty categories
-            categoryHeaders.forEach(category => {
-                const grid = category.querySelector('.projects-grid');
-                const visibleCards = grid.querySelectorAll('.project-card:not(.hidden)');
-
-                if (visibleCards.length === 0) {
-                    category.style.display = 'none';
-                } else {
-                    category.style.display = 'block';
-                }
-            });
-        };
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const group = button.dataset.filterGroup;
-                setActiveForGroup(group, button.dataset[group]);
-                applyFilters();
-            });
-        });
-
-        resetButton.addEventListener('click', () => {
-            setActiveForGroup('platform', 'all');
-            setActiveForGroup('category', 'all');
-            applyFilters();
-        });
-
-        applyFilters();
-    </script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>
