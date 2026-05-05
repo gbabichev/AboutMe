@@ -407,6 +407,67 @@ h1 {
     font-size: 0.94rem;
 }
 
+.featured-carousel {
+    position: relative;
+}
+
+.featured-nav {
+    position: absolute;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    z-index: 3;
+    width: 2.9rem;
+    height: 2.9rem;
+    padding: 0;
+    border: 1px solid rgba(23, 32, 51, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--ink);
+    box-shadow: 0 14px 30px rgba(44, 39, 28, 0.12);
+    transform: translateY(-50%) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.featured-carousel:hover .featured-nav,
+.featured-carousel:focus-within .featured-nav,
+.featured-nav:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) scale(1);
+}
+
+.featured-nav:hover,
+.featured-nav:focus-visible {
+    background: var(--surface-strong);
+}
+
+.featured-nav:disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.featured-nav-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: currentColor;
+    stroke-width: 2.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+.featured-nav-prev {
+    left: 0.7rem;
+}
+
+.featured-nav-next {
+    right: 0.7rem;
+}
+
 .featured-grid {
     display: grid;
     grid-auto-flow: column;
@@ -415,8 +476,9 @@ h1 {
     overflow-x: auto;
     overscroll-behavior-x: contain;
     padding-bottom: 0.35rem;
-    scroll-snap-type: x proximity;
     scrollbar-width: thin;
+    scrollbar-color: rgba(23, 32, 51, 0.18) transparent;
+    scroll-snap-type: x proximity;
 }
 
 .featured-card {
@@ -978,6 +1040,17 @@ footer {
         border-color: rgba(187, 204, 234, 0.1);
     }
 
+    .featured-nav {
+        background: rgba(10, 16, 29, 0.9);
+        color: #f6f3ed;
+        border-color: rgba(187, 204, 234, 0.12);
+    }
+
+    .featured-nav:hover,
+    .featured-nav:focus-visible {
+        background: rgba(18, 25, 40, 0.98);
+    }
+
     .featured-visual {
         background:
             linear-gradient(135deg, rgba(242, 139, 69, 0.08), rgba(105, 200, 192, 0.08)),
@@ -1126,6 +1199,19 @@ footer {
 
     .featured-grid {
         grid-auto-columns: minmax(255px, 86vw);
+    }
+
+    .featured-nav {
+        width: 2.55rem;
+        height: 2.55rem;
+    }
+
+    .featured-nav-prev {
+        left: 0.45rem;
+    }
+
+    .featured-nav-next {
+        right: 0.45rem;
     }
 
     .featured-card {

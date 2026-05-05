@@ -5,6 +5,7 @@ const resetButton = document.getElementById('reset-filters');
 const resultsSummary = document.getElementById('results-summary');
 const emptyState = document.getElementById('empty-state');
 const yearNode = document.getElementById('current-year');
+const featuredCarousels = document.querySelectorAll('[data-featured-carousel]');
 
 const totalAppsNode = document.getElementById('stat-total-apps');
 const appStoreNode = document.getElementById('stat-appstore');
@@ -121,6 +122,48 @@ const applyFilters = () => {
     emptyState.hidden = visibleCount !== 0;
 };
 
+const setupFeaturedCarousel = (carousel) => {
+    const track = carousel.querySelector('.featured-grid');
+    const previousButton = carousel.querySelector('[data-featured-nav="prev"]');
+    const nextButton = carousel.querySelector('[data-featured-nav="next"]');
+
+    if (!track || !previousButton || !nextButton) {
+        return;
+    }
+
+    const getScrollAmount = () => {
+        const firstCard = track.querySelector('.featured-card');
+        if (!firstCard) {
+            return track.clientWidth * 0.8;
+        }
+
+        const cardWidth = firstCard.getBoundingClientRect().width;
+        const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0;
+        return Math.max(cardWidth + gap, track.clientWidth * 0.8);
+    };
+
+    const updateButtons = () => {
+        const maxScrollLeft = track.scrollWidth - track.clientWidth;
+        const atStart = track.scrollLeft <= 4;
+        const atEnd = track.scrollLeft >= maxScrollLeft - 4;
+
+        previousButton.disabled = atStart;
+        nextButton.disabled = atEnd || maxScrollLeft <= 0;
+    };
+
+    previousButton.addEventListener('click', () => {
+        track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    });
+
+    nextButton.addEventListener('click', () => {
+        track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    });
+
+    track.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
+};
+
 filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
         const group = button.dataset.filterGroup;
@@ -141,4 +184,5 @@ appStoreNode.textContent = String(
 );
 yearNode.textContent = String(new Date().getFullYear());
 
+featuredCarousels.forEach(setupFeaturedCarousel);
 applyFilters();
